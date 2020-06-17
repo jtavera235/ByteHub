@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan({"com.example.ErrorLogAPI.controller"})
+@ComponentScan({"com.example.ErrorLogAPI.controllers"})
 public class ErrorLogApiApplication implements CommandLineRunner {
 
 
