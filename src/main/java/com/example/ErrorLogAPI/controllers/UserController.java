@@ -3,8 +3,6 @@ package com.example.ErrorLogAPI.controllers;
 import com.example.ErrorLogAPI.models.User;
 import com.example.ErrorLogAPI.repositories.UserRepository;
 import com.example.ErrorLogAPI.services.UserService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
