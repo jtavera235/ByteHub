@@ -18,6 +18,11 @@ public class UserController {
         this.userService = new UserService(userRepository);
     }
 
+    @GetMapping("/")
+    public String index() {
+        return "Hello World";
+    }
+
     // Gets all the users in the database
     @GetMapping("/users")
     public List<User> getUsers() {
