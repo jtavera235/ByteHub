@@ -7,6 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @ComponentScan({"com.example.ErrorLogAPI.controllers"})
+@ComponentScan({"com.example.ErrorLogAPI.authentication"})
 public class ErrorLogApiApplication implements CommandLineRunner {
 
 

@@ -1,4 +1,4 @@
-package com.example.ErrorLogAPI.authentication;
+package com.example.ErrorLogAPI.authentication.models;
 
 import com.example.ErrorLogAPI.models.Project;
 import com.example.ErrorLogAPI.models.User;

@@ -1,6 +1,9 @@
-package com.example.ErrorLogAPI.authentication;
+package com.example.ErrorLogAPI.authentication.controllers;
 
 
+import com.example.ErrorLogAPI.authentication.services.AuthenticationService;
+import com.example.ErrorLogAPI.authentication.models.LoginRequest;
+import com.example.ErrorLogAPI.authentication.models.LoginResponse;
 import com.example.ErrorLogAPI.models.User;
 import com.example.ErrorLogAPI.repositories.ErrorRepository;
 import com.example.ErrorLogAPI.repositories.PasswordRepository;
