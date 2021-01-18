@@ -41,12 +41,12 @@ public class AuthenticationController {
 
     }
 
-    // represents a register route
-    @PostMapping("/auth/register")
-    public ResponseEntity<User> register(@RequestBody User u) {
+        // represents a register route
+        @PostMapping("/auth/register")
+        public ResponseEntity<User> register(@RequestBody User u) {
         /*
         User u -> represents the user to register
          */
-        return this.authenticationService.register(u);
+            return this.authenticationService.register(u);
     }
 }

@@ -1,7 +1,6 @@
 package com.example.ErrorLogAPI.services;
 
 
-import com.example.ErrorLogAPI.models.Password;
 import com.example.ErrorLogAPI.models.Project;
 import com.example.ErrorLogAPI.models.User;
 import com.example.ErrorLogAPI.repositories.ErrorRepository;
@@ -10,13 +9,10 @@ import com.example.ErrorLogAPI.repositories.ProjectRepository;
 import com.example.ErrorLogAPI.repositories.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.*;
 
-public class UserService implements UserDetailsService {
+public class UserService {
 
     private final UserRepository userRepository;
     private final ProjectRepository projectRepository;
@@ -55,7 +51,8 @@ public class UserService implements UserDetailsService {
          */
         this.passwordService = new PasswordService(this.passwordRepository);
         int index = passwordService.savePassword(u.getEmail(), u.getTempPassHolder());
-        u = new User(u.getName(), u.getEmail(), u.getProjects(), u.getInvitedProjects(), index);
+        u = new User(u.getName(), u.getEmail(), u.getProjects(), u.getInvitedProjects(), index,
+            u.getToken());
         u.setCreatedDate(new Date());
         return new ResponseEntity<>(this.userRepository.save(u), HttpStatus.OK);
     }
@@ -98,14 +95,16 @@ public class UserService implements UserDetailsService {
         for (int i = 0; i < userProjects.size(); i++) {
             Optional<Project> project = this.projectService.getProject(userProjects.get(i));
             if (project.isPresent()) {
-                // CASE 1 : There is only 1 admin which has to be the passed user. Therefore delete the whole project
+                // CASE 1 : There is only 1 admin which has to be the passed user.
+                // Therefore delete the whole project
                 if (project.get().numberOfAdmins() <= 1) {
                     this.projectService.deleteProject(userProjects.get(i));
                     this.passwordService.deletePasswordsWhenUserDeletesAccount(user.get().getEmail());
                     this.userRepository.deleteById(id);
                     return new ResponseEntity<>("User deleted successfully.", HttpStatus.OK);
                 }
-                // CASE 2: There is more than 1 admin and therefore the user has to be removed from the admin list
+                // CASE 2: There is more than 1 admin and therefore the user has to be removed from
+                // the admin list
                 if (project.get().getAdmins().contains(user.get().getEmail())) {
                     project.get().removeAdmin(user.get().getEmail());
                 }
@@ -139,7 +138,8 @@ public class UserService implements UserDetailsService {
         String projectID -> Represents the ID of the newly created project
         String id -> represents the user's ID
          */
-        this.projectService = new ProjectService(this.projectRepository, this.userRepository, this.errorRepository, this.passwordRepository);
+        this.projectService = new ProjectService(this.projectRepository,
+            this.userRepository, this.errorRepository, this.passwordRepository);
         return getUser(id).map(user -> {
             user.acceptedProject(projectID);
             String email = mapIdToEmail(id);
@@ -215,16 +215,4 @@ public class UserService implements UserDetailsService {
     }
 
 
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Optional<User> user = findByEmail(email);
-        if (!user.isPresent()) { throw new UsernameNotFoundException("User not found by email: " + email); }
-        return toUserDetails(user.get());
-    }
-
-    private UserDetails toUserDetails(User user) {
-        return org.springframework.security.core.userdetails.User.withUsername(user.getEmail())
-                .password(user.getTempPassHolder())
-                .roles(userObject.role).build();
-    }
 }

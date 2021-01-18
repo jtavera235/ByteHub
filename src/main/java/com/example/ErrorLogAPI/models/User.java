@@ -20,6 +20,7 @@ public class User {
     private Date createdDate;
     private List<String> invitedProjects;
     private String tempPassHolder;
+    private String token;
 
 
     // default constructor for users
@@ -28,7 +29,8 @@ public class User {
     }
 
     // constructor for a user
-    public User(String name, String email, List<String> projects, List<String> invitedProjects, String tempPassHolder) {
+    public User(String name, String email, List<String> projects, List<String> invitedProjects,
+        String tempPassHolder, String token) {
         this.name = name;
         this.email = email;
         this.password = password;
@@ -36,16 +38,19 @@ public class User {
         this.createdDate = new Date();
         this.invitedProjects = invitedProjects;
         this.tempPassHolder = tempPassHolder;
+        this.token = token;
     }
 
     // constructor for a user that does not show password
-    public User(String name, String email, List<String> projects, List<String> invitedProjects, int password) {
+    public User(String name, String email, List<String> projects, List<String> invitedProjects,
+        int password, String token) {
         this.name = name;
         this.email = email;
         this.projects = projects;
         this.createdDate = new Date();
         this.invitedProjects = invitedProjects;
         this.password = password;
+        this.token = token;
     }
 
     // gets a user's email
@@ -85,6 +90,9 @@ public class User {
     // gets the temporary password holder of the user
     public String getTempPassHolder() { return this.tempPassHolder; }
 
+    // gets a user's token
+    public String getToken() { return this.token; }
+
     // sets a user's email
     public void setEmail(String email) {
         this.email = email;
@@ -115,6 +123,10 @@ public class User {
         this.createdDate = d;
     }
 
+    // sets a user's token
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     // adds a project to a user's list of project
     public void addProject(String projectID) {

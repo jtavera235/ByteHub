@@ -12,8 +12,10 @@ import com.example.ErrorLogAPI.repositories.UserRepository;
 import com.example.ErrorLogAPI.services.PasswordService;
 import com.example.ErrorLogAPI.services.ProjectService;
 import com.example.ErrorLogAPI.services.UserService;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Optional;
 
@@ -28,6 +30,8 @@ public class AuthenticationService {
     private ProjectService projectService;
     private PasswordService passwordService;
 
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     // constructor for the authentication service
     public AuthenticationService(UserRepository userRepository, ProjectRepository projectRepository, ErrorRepository errorRepository,
                                  PasswordRepository passwordRepository) {
@@ -37,6 +41,11 @@ public class AuthenticationService {
         this.passwordRepository = passwordRepository;
     }
 
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+    
     // performs the register actions in the services
     public ResponseEntity<User> register(User u) {
         /*
